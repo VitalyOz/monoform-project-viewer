@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Заказы в работе</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2c2c2c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Заказы">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="cyrillic">
+    <div class="container">
+        <header class="header">
+            <div class="logo-container">
+                <img src="logo.png" alt="monoform" class="logo-image">
+            </div>
+            <h1>Заказы в работе</h1>
+            <button class="btn btn-primary" id="addOrderBtn">
+                <i class="fas fa-plus"></i> Добавить заказ
+            </button>
+        </header>
+
+        <main class="main-content">
+            <div class="orders-grid" id="ordersGrid">
+                <!-- Заказы будут добавляться здесь динамически -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Модальное окно добавления заказа -->
+    <div class="modal" id="addOrderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Добавить новый заказ</h2>
+                <span class="close" id="closeModal">&times;</span>
+            </div>
+            <form class="modal-body" id="orderForm">
+                <div class="form-group">
+                    <label for="orderName">Название заказа *</label>
+                    <input type="text" id="orderName" name="orderName" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contractNumber">Номер договора</label>
+                        <input type="text" id="contractNumber" name="contractNumber">
+                    </div>
+                    <div class="form-group">
+                        <label for="contractDate">Дата договора</label>
+                        <input type="date" id="contractDate" name="contractDate">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="pdfUpload">Загрузка КП</label>
+                    <input type="file" id="pdfUpload" name="pdfUpload" accept=".pdf" multiple>
+                    <div class="file-list" id="fileList"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="productionDeadline">Производство срок</label>
+                    <input type="date" id="productionDeadline" name="productionDeadline">
+                </div>
+
+                <div class="form-group">
+                    <label for="installationDeadline">Монтаж с</label>
+                    <input type="date" id="installationDeadline" name="installationDeadline">
+                </div>
+
+                <div class="form-group">
+                    <label for="lightingInclusion">Подсветка</label>
+                    <select id="lightingInclusion" name="lightingInclusion">
+                        <option value="none">Нет</option>
+                        <option value="switch">От выключателя</option>
+                        <option value="sensors">От встроенных датчиков дверей</option>
+                        <option value="switch_blocks">От выключателя, блоки заказчика</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="rodType">Штанга</label>
+                    <select id="rodType" name="rodType">
+                        <option value="vouge_black">Vouge черная</option>
+                        <option value="leather_gray">Кожаная серая</option>
+                        <option value="leather_red">Кожаная рыжая</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="wallMaterial">Материалы стенки</label>
+                    <select id="wallMaterial" name="wallMaterial">
+                        <option value="ldsp">ЛДСП</option>
+                        <option value="enamel">Эмаль</option>
+                        <option value="veneer">Шпон</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="shelfMaterial">Материалы полки</label>
+                    <select id="shelfMaterial" name="shelfMaterial">
+                        <option value="ldsp">ЛДСП</option>
+                        <option value="enamel">Эмаль</option>
+                        <option value="veneer">Шпон</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="backMaterial">Материалы задника</label>
+                    <select id="backMaterial" name="backMaterial">
+                        <option value="ldsp">ЛДСП</option>
+                        <option value="enamel">Эмаль</option>
+                        <option value="veneer">Шпон</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="wallType">Для Лайт и навесной, материал стен</label>
+                    <select id="wallType" name="wallType">
+                        <option value="concrete">Бетон</option>
+                        <option value="hollow_brick">Пустотелый кирпич</option>
+                        <option value="foam_block">Пеноблок</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="priority">Приоритет</label>
+                    <select id="priority" name="priority">
+                        <option value="low">Низкий</option>
+                        <option value="medium" selected>Средний</option>
+                        <option value="high">Высокий</option>
+                        <option value="urgent">Срочный</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Создать заказ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования заказа -->
+    <div class="modal" id="editOrderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Редактировать заказ</h2>
+                <span class="close" id="closeEditModal">&times;</span>
+            </div>
+            <form class="modal-body" id="editOrderForm">
+                <!-- Форма редактирования будет заполняться динамически -->
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
